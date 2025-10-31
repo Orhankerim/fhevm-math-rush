@@ -13,12 +13,10 @@ const DappWrapper = ({ children }: { children: React.ReactNode }) => {
   return (
     <html suppressHydrationWarning className={``}>
       <head>
-        <link
-          href="https://api.fontshare.com/v2/css?f[]=telegraf@400,500,700&display=swap"
-          rel="stylesheet"
-        />
+        <link href="https://api.fontshare.com/v2/css?f[]=telegraf@400,500,700&display=swap" rel="stylesheet" />
       </head>
-      <body>
+      <body
+        className="relative min-h-screen bg-gradient-to-br from-[#0f2027] via-[#203a43] to-[#2c5364] backdrop-blur-md bg-white/5">
         <ThemeProvider enableSystem>
           <DappWrapperWithProviders>{children}</DappWrapperWithProviders>
         </ThemeProvider>
