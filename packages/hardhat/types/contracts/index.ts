@@ -2,3 +2,4 @@
 /* tslint:disable */
 /* eslint-disable */
 export type { FHECounter } from "./FHECounter";
+export type { FHEVMathRust } from "./FHEVMathRust";

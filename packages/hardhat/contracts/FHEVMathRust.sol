@@ -6,58 +6,59 @@ import {SepoliaConfig} from "@fhevm/solidity/config/ZamaConfig.sol";
 
 /**
  * @title FHEVMathRust
- * @dev Each user submits encrypted math results.
- * The contract keeps only the user's best (maximum) encrypted result.
- * Both the user and contract can decrypt their own data.
+ * @dev Each player submits encrypted math scores.
+ * The contract only keeps the player's best (maximum) encrypted score.
+ * Both the player and the contract can decrypt their own data.
  */
 contract FHEVMathRust is SepoliaConfig {
-    // Store best encrypted result per user
-    mapping(address => euint32) private _bestResult;
-    mapping(address => bool) private _hasResult;
+    // Encrypted best score per player
+    mapping(address => euint32) private _topScore;
+    mapping(address => bool) private _hasScore;
 
     /**
-     * @notice Submit an encrypted math result.
-     * @param resultEncrypted Encrypted score/result (e.g., number of correct answers)
-     * @param proof Zero-knowledge proof for encrypted input
+     * @notice Submit an encrypted score.
+     * @param encryptedScore The encrypted math score
+     * @param zkProof Zero-knowledge proof for encrypted input
      */
-    function submitResult(externalEuint32 resultEncrypted, bytes calldata proof) external {
-        // Decrypt externally submitted result
-        euint32 newResult = FHE.fromExternal(resultEncrypted, proof);
+    function submitScore(externalEuint32 encryptedScore, bytes calldata zkProof) external {
+        euint32 latestScore = FHE.fromExternal(encryptedScore, zkProof);
 
-        // Allow user and contract to decrypt
-        FHE.allow(newResult, msg.sender);
-        FHE.allowThis(newResult);
+        FHE.allow(latestScore, msg.sender);
+        FHE.allowThis(latestScore);
 
-        if (_hasResult[msg.sender]) {
-            // Compare with current best result
-            euint32 currentBest = _bestResult[msg.sender];
+        if (_hasScore[msg.sender]) {
+            euint32 prevTop = _topScore[msg.sender];
+            euint32 betterScore = FHE.select(FHE.gt(latestScore, prevTop), latestScore, prevTop);
 
-            // newBest = max(currentBest, newResult)
-            euint32 newBest = FHE.select(FHE.gt(newResult, currentBest), newResult, currentBest);
-            _bestResult[msg.sender] = newBest;
+            _topScore[msg.sender] = betterScore;
+
+            FHE.allow(_topScore[msg.sender], msg.sender);
+            FHE.allowThis(_topScore[msg.sender]);
         } else {
-            // First submission
-            _bestResult[msg.sender] = newResult;
-            _hasResult[msg.sender] = true;
+            _topScore[msg.sender] = latestScore;
+            _hasScore[msg.sender] = true;
+
+            FHE.allow(_topScore[msg.sender], msg.sender);
+            FHE.allowThis(_topScore[msg.sender]);
         }
     }
 
     /**
-     * @notice Get the best encrypted result of a user.
-     * @param user The address whose best result to fetch.
-     * @return Encrypted best result.
+     * @notice Get the best encrypted score of a player.
+     * @param player The address of the player.
+     * @return Encrypted top score.
      */
-    function getBestResult(address user) external view returns (euint32) {
-        require(_hasResult[user], "No result found");
-        return _bestResult[user];
+    function getTopScore(address player) external view returns (euint32) {
+        require(_hasScore[player], "No score found");
+        return _topScore[player];
     }
 
     /**
-     * @notice Check if a user has submitted any result.
-     * @param user The address to check.
-     * @return True if the user has a stored result.
+     * @notice Check if a player has submitted any score.
+     * @param player The address to check.
+     * @return True if the player has a stored score.
      */
-    function hasResult(address user) external view returns (bool) {
-        return _hasResult[user];
+    function hasScore(address player) external view returns (bool) {
+        return _hasScore[player];
     }
 }
