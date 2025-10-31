@@ -158,7 +158,7 @@ export const FHEVMathRust = () => {
   // -----------------------------
   if (!isConnected) {
     return (
-      <div className="flex w-full items-center justify-center bg-gradient-to-br from-blue-900 to-black text-white relative overflow-hidden">
+      <div className="h-[calc(100vh-100px)] flex w-full items-center justify-center bg-gradient-to-br from-blue-900 to-black text-white relative overflow-hidden">
         {/* Glowing background lights */}
         <div className="absolute inset-0 overflow-hidden">
           <div className="absolute top-1/3 left-1/4 w-72 h-72 bg-blue-400/20 rounded-full blur-3xl animate-pulse" />

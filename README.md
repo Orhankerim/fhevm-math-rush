@@ -1,19 +1,47 @@
-# FHEVM React Template
+# 🧮 FHEVMathRust — FHE Encrypted Math Challenge dApp
 
-A minimal React frontend template for building FHEVM-enabled decentralized applications (dApps). This template provides a simple development interface for interacting with FHEVM smart contracts, specifically the `FHECounter.sol` contract.
+**FHEVMathRust** is an interactive blockchain game built with **React**, **Wagmi**, and **FHEVM SDK**.  
+It challenges players to solve fast math problems while submitting their scores **privately on-chain** using **Fully Homomorphic Encryption (FHE)**.
 
-## 🚀 What is FHEVM?
+---
 
-FHEVM (Fully Homomorphic Encryption Virtual Machine) enables computation on encrypted data directly on Ethereum. This template demonstrates how to build dApps that can perform computations while keeping data private.
+## 🚀 Overview
 
-## ✨ Features
+This dApp demonstrates how to build an **on-chain privacy-preserving application** with **Zama’s FHEVM**.  
+All user scores are **encrypted client-side** and only decrypted with proper authorization.
 
-- **🔐 FHEVM Integration**: Built-in support for fully homomorphic encryption
-- **⚛️ React + Next.js**: Modern, performant frontend framework
-- **🎨 Tailwind CSS**: Utility-first styling for rapid UI development
-- **🔗 RainbowKit**: Seamless wallet connection and management
-- **🌐 Multi-Network Support**: Works on both Sepolia testnet and local Hardhat node
-- **📦 Monorepo Structure**: Organized packages for SDK, contracts, and frontend
+Players:
+1. Solve 5 random addition questions within 10 seconds.
+2. Earn points for correct answers.
+3. Submit encrypted scores on-chain.
+4. Optionally decrypt results later.
+
+---
+
+## 🧠 Core Features
+
+- 🔐 **FHEVM Integration** — Encrypted smart contract interaction.
+- 🧩 **React Hooks-based Architecture** — Modular, easy to extend.
+- 🌈 **RainbowKit + Wagmi** — Seamless wallet connection (MetaMask, WalletConnect, etc.)
+- 🎨 **Framer Motion + TailwindCSS** — Animated and modern UI.
+- 🎆 **Confetti celebration** — When you hit a perfect score!
+- 🏁 **Real blockchain state sync** — Best score stored and fetched from the contract.
+
+---
+
+## ⚙️ Technologies Used
+
+| Stack | Purpose |
+|-------|----------|
+| **React 18 / Next.js 14** | Frontend framework |
+| **FHEVM SDK** | Client-side encryption / decryption |
+| **Wagmi + RainbowKit** | Wallet integration |
+| **Framer Motion** | Animations |
+| **TailwindCSS** | Styling |
+| **Canvas-Confetti** | Visual effects |
+
+---
+
 
 ## 📋 Prerequinextjss
 
@@ -124,7 +152,7 @@ For more details, see the [MetaMask development guide](https://docs.metamask.io/
 This template uses a monorepo structure with three main packages:
 
 ```
-fhevm-react-template/
+fhevm-math-rush/
 ├── packages/
 │   ├── fhevm-hardhat-template/    # Smart contracts & deployment
 │   ├── fhevm-sdk/                 # FHEVM SDK package
@@ -134,8 +162,8 @@ fhevm-react-template/
 
 ### Key Components
 
-#### 🔗 FHEVM Integration (`packages/nextjs/hooks/fhecounter-example/`)
-- **`useFHECounterWagmi.tsx`**: Example hook demonstrating FHEVM contract interaction
+#### 🔗 FHEVM Integration (`packages/nextjs/hooks`)
+- **`useFHEVMathRustWagmi.tsx`**: Example hook demonstrating FHEVM contract interaction
 - Essential hooks for FHEVM-enabled smart contract communication
 - Easily copyable to any FHEVM + React project
 
